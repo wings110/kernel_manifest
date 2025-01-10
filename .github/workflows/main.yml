@@ -27,7 +27,7 @@ jobs:
 
       - name: Clone Kernel Manifest Repository
         run: |
-          git clone https://github.com/OnePlusOSS/kernel_manifest.git -b oneplus/sm8650
+          git clone --depth 1 https://github.com/OnePlusOSS/kernel_manifest.git -b oneplus/sm8650
           cd kernel_manifest
 
       - name: Initialize and Sync Repo
@@ -36,7 +36,7 @@ jobs:
           repo init -u https://github.com/OnePlusOSS/kernel_manifest -b oneplus/sm8650 -m oneplus_ace3_pro.xml
           mv oneplus_ace3_pro.xml .repo/manifests
           repo init -m oneplus_ace3_pro.xml
-          repo sync -j$(nproc)
+          repo sync -j4
 
       - name: Build Kernel
         run: |
