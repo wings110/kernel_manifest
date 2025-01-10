@@ -3,10 +3,10 @@ name: Build OnePlus Kernel
 on:
   push:
     branches:
-      - main
+      - oneplus/sm8650
   pull_request:
     branches:
-      - main
+      - oneplus/sm8650
 
 jobs:
   build_kernel:
