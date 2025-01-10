@@ -18,7 +18,12 @@ jobs:
       - name: Install Required Dependencies
         run: |
           sudo apt update
-          sudo apt install -y repo build-essential gcc clang bc libssl-dev bison flex libncurses5-dev libelf-dev git
+          sudo apt install -y curl repo build-essential gcc clang bc libssl-dev bison flex libncurses5-dev libelf-dev git
+
+      - name: Install and Update Repo Tool
+        run: |
+          sudo curl -o /usr/bin/repo https://storage.googleapis.com/git-repo-downloads/repo
+          sudo chmod a+x /usr/bin/repo
 
       - name: Clone Kernel Manifest Repository
         run: |
