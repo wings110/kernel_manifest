@@ -1,0 +1,39 @@
+name: Build OnePlus Kernel
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build_kernel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Required Dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y repo build-essential gcc clang bc libssl-dev bison flex libncurses5-dev libelf-dev git
+
+      - name: Clone Kernel Manifest Repository
+        run: |
+          git clone https://github.com/OnePlusOSS/kernel_manifest.git -b oneplus/sm8650
+          cd kernel_manifest
+
+      - name: Initialize and Sync Repo
+        run: |
+          cd kernel_manifest
+          repo init -u https://github.com/OnePlusOSS/kernel_manifest -b oneplus/sm8650 -m oneplus_ace3_pro.xml
+          mv oneplus_ace3_pro.xml .repo/manifests
+          repo init -m oneplus_ace3_pro.xml
+          repo sync -j$(nproc)
+
+      - name: Build Kernel
+        run: |
+          cd kernel_manifest
+          ./kernel_platform/oplus/build/oplus_build_kernel.sh pineapple gki
